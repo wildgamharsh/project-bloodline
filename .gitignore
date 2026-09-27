@@ -1,0 +1,27 @@
+# Prototypes (not part of the final deliverable)
+prot1.html
+prot2.html
+
+# Environment & OS noise
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Node / build artifacts (if any in the future)
+node_modules/
+dist/
+build/
+*.log
+
+# Temporary / scratch
+*.tmp
+*.bak
+*.old

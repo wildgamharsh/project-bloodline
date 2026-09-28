@@ -87,7 +87,7 @@ project-bloodline/
 
 | Role | Name | Registration No. |
 |---|---|---|
-| **Project Leader** | Harshveer | 12613979 |
+| **Project Leader** | Harshveer Singh Jaspal | 12613979 |
 | Team Member | Sachnoor Singh | 12616832 |
 | Team Member | NAND Akash Singh Rajpoot | 12622800 |
 

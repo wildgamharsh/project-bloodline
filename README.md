@@ -87,9 +87,9 @@ project-bloodline/
 
 | Role | Name | Registration No. |
 |---|---|---|
-| **Project Leader** | Harshveer Singh Jaspal | 12613979 |
-| Team Member | — | 12616832 |
-| Team Member | — | 12622800 |
+| **Project Leader** | Harshveer | 12613979 |
+| Team Member | Sachnoor Singh | 12616832 |
+| Team Member | NAND Akash Singh Rajpoot | 12622800 |
 
 **Team Name:** Curious Builders  
 **Course:** CSE326 — Section K4P26FE  

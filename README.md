@@ -72,8 +72,11 @@ python3 -m http.server 8000
 
 ```
 project-bloodline/
-├── index.html              # Landing page (overview, features, links to the app)
-├── main.html               # Main application (donor directory, registration, emergency broadcast, compatibility matrix)
+├── index.html              # Landing page = role decider (Recipient / Donor / Admin)
+├── recipient.html          # Recipient portal — find a donor, emergency requests, compatibility
+├── donor.html              # Donor portal — register as donor, browse directory, view emergencies
+├── admin.html              # Admin portal — full dashboard, manage donors + broadcasts
+├── main.html               # Legacy full app (all views combined, kept for reference)
 ├── bloodline-logo.png      # Project logo
 ├── bloodline-logo-trimmed.png  # Trimmed logo variant (favicon + brand mark)
 ├── info.md                 # Full project specification & team details

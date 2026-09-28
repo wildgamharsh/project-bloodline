@@ -39,12 +39,15 @@ The project is **entirely frontend** — no backend, no build step. Just open it
 No install, no build, no dependencies. Just open the file:
 
 ```bash
-# Option 1 — open directly in your browser
+# Option 1 — open the landing page directly in your browser
 xdg-open index.html      # Linux
 open index.html          # macOS
 start index.html         # Windows
 
-# Option 2 — serve it locally (optional, for better dev tooling)
+# Option 2 — open the main app directly
+xdg-open main.html
+
+# Option 3 — serve it locally (optional, for better dev tooling)
 python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
@@ -69,7 +72,8 @@ python3 -m http.server 8000
 
 ```
 project-bloodline/
-├── index.html              # Main application (hero, directory, emergency broadcast, compatibility matrix)
+├── index.html              # Landing page (overview, features, links to the app)
+├── main.html               # Main application (donor directory, registration, emergency broadcast, compatibility matrix)
 ├── bloodline-logo.png      # Project logo
 ├── bloodline-logo-trimmed.png  # Trimmed logo variant (favicon + brand mark)
 ├── info.md                 # Full project specification & team details

@@ -13,26 +13,26 @@ const COMPAT = {
 const BADGE = { "O−": "g-on", "O+": "g-op", "A−": "g-an", "A+": "g-ap", "B−": "g-bn", "B+": "g-bp", "AB−": "g-abn", "AB+": "g-abp" };
 
 const seedDonors = [
-  { id: 1, name: "Amelia Hart", group: "O−", city: "Seattle", area: "Capitol Hill", phone: "206-555-0142" },
-  { id: 2, name: "James Okonkwo", group: "O+", city: "Chicago", area: "Lincoln Park", phone: "312-555-0198" },
-  { id: 3, name: "Priya Raman", group: "B+", city: "Austin", area: "East Cesar Chavez", phone: "512-555-0166" },
-  { id: 4, name: "Noah Berger", group: "A+", city: "Boston", area: "West End", phone: "617-555-0114" },
-  { id: 5, name: "Sofia Alvarez", group: "AB+", city: "Miami", area: "Coral Gables", phone: "305-555-0177" },
-  { id: 6, name: "Owen MacLeod", group: "O−", city: "Seattle", area: "Ballard", phone: "206-555-0181" },
-  { id: 7, name: "Hana Ito", group: "A−", city: "Portland", area: "Alberta Arts", phone: "503-555-0129" },
-  { id: 8, name: "Marcus Reed", group: "B−", city: "Denver", area: "RiNo", phone: "303-555-0153" },
-  { id: 9, name: "Leila Haddad", group: "O+", city: "Brooklyn", area: "Park Slope", phone: "718-555-0104" },
-  { id: 10, name: "Theo Nilsen", group: "AB−", city: "Minneapolis", area: "Northeast", phone: "612-555-0190" },
-  { id: 11, name: "Grace Adeyemi", group: "A+", city: "Atlanta", area: "Old Fourth Ward", phone: "404-555-0138" },
-  { id: 12, name: "Callum Wright", group: "O−", city: "Boston", area: "Beacon Hill", phone: "617-555-0162" },
-  { id: 13, name: "Maya Chen", group: "B+", city: "Seattle", area: "Fremont", phone: "206-555-0120" },
-  { id: 14, name: "Diego Vargas", group: "O+", city: "Phoenix", area: "Roosevelt Row", phone: "602-555-0188" },
-  { id: 15, name: "Elena Volkov", group: "A−", city: "Chicago", area: "Wicker Park", phone: "312-555-0144" },
-  { id: 16, name: "Samir Patel", group: "AB+", city: "Austin", area: "Mueller", phone: "512-555-0171" }
+  { id: 1, name: "Aarav Sharma", group: "O−", city: "Mumbai", area: "Andheri West", phone: "+91 98765 43210" },
+  { id: 2, name: "Rohan Verma", group: "O+", city: "Delhi", area: "Hauz Khas", phone: "+91 98123 45678" },
+  { id: 3, name: "Priya Patel", group: "B+", city: "Bangalore", area: "Koramangala", phone: "+91 99876 54321" },
+  { id: 4, name: "Vikram Singh", group: "A+", city: "Chennai", area: "Adyar", phone: "+91 97456 78901" },
+  { id: 5, name: "Ananya Iyer", group: "AB+", city: "Hyderabad", area: "Banjara Hills", phone: "+91 96543 21098" },
+  { id: 6, name: "Arjun Mehta", group: "O−", city: "Kolkata", area: "Salt Lake", phone: "+91 95432 10987" },
+  { id: 7, name: "Sneha Kulkarni", group: "A−", city: "Pune", area: "Koregaon Park", phone: "+91 94321 09876" },
+  { id: 8, name: "Rahul Gupta", group: "B−", city: "Ahmedabad", area: "Maninagar", phone: "+91 93210 98765" },
+  { id: 9, name: "Divya Nair", group: "O+", city: "Jaipur", area: "C-Scheme", phone: "+91 92109 87654" },
+  { id: 10, name: "Karan Malhotra", group: "AB−", city: "Lucknow", area: "Gomti Nagar", phone: "+91 91098 76543" },
+  { id: 11, name: "Meera Joshi", group: "A+", city: "Chandigarh", area: "Sector 17", phone: "+91 90987 65432" },
+  { id: 12, name: "Aditya Rao", group: "O−", city: "Indore", area: "Vijay Nagar", phone: "+91 89876 54321" },
+  { id: 13, name: "Kavya Reddy", group: "B+", city: "Bhopal", area: "MP Nagar", phone: "+91 88765 43210" },
+  { id: 14, name: "Sanjay Kumar", group: "O+", city: "Nagpur", area: "Dharampeth", phone: "+91 87654 32109" },
+  { id: 15, name: "Pooja Desai", group: "A−", city: "Surat", area: "Adajan", phone: "+91 86543 21098" },
+  { id: 16, name: "Nikhil Bansal", group: "AB+", city: "Kochi", area: "Kakkanad", phone: "+91 85432 10987" }
 ];
 const seedEmerg = [
-  { id: 1, group: "O−", location: "Seattle · Harborview Medical", status: "Critical", info: "Trauma patient, surgery in 2 hours. Three units of O− red cells requested." },
-  { id: 2, group: "AB−", location: "Boston · Mass General, West End", status: "Urgent", info: "Scheduled cardiac case tomorrow morning. One unit AB− preferred; compatible alternatives listed in the matrix." }
+  { id: 1, group: "O−", location: "Mumbai &nbsp;&nbsp;·&nbsp;&nbsp; Lilavati Hospital, Bandra", status: "Critical", info: "Trauma patient, surgery in 2 hours. Three units of O− red cells requested." },
+  { id: 2, group: "AB−", location: "Delhi &nbsp;&nbsp;·&nbsp;&nbsp; AIIMS, Ansari Nagar", status: "Urgent", info: "Scheduled cardiac case tomorrow morning. One unit AB− preferred; compatible alternatives listed in the matrix." }
 ];
 
 // ========== STATE ==========
@@ -119,7 +119,7 @@ function renderEmerg() {
   list.innerHTML = store.emerg.map(e => `
     <article class="e-card ${e.status === "Critical" ? "critical" : ""}">
       <div>
-        <h3>${e.group} · ${e.location}</h3>
+        <h3>${e.group} &nbsp;&nbsp;·&nbsp;&nbsp; ${e.location}</h3>
         <p>${e.info}</p>
       </div>
       <span class="status ${e.status === "Critical" ? "crit" : "urg"}">${e.status}</span>
@@ -132,8 +132,7 @@ function renderMatrix() {
   const head = `<tr><th class="corner"></th>${GROUPS.map(g => `<th>${g}</th>`).join("")}</tr>`;
   const body = GROUPS.map(rec => `<tr><th>${rec}</th>${GROUPS.map(don => {
     const yes = COMPAT[rec].receiveFrom.includes(don);
-    const uni = don === "O−" && yes;
-    return `<td class="${yes ? "yes" : ""} ${uni ? "uni" : ""}">${yes ? "+" : ""}</td>`;
+    return `<td class="${yes ? "yes" : ""}">${yes ? "+" : ""}</td>`;
   }).join("")}</tr>`).join("");
   matrix.innerHTML = head + body;
 }
@@ -225,5 +224,33 @@ if (emergForm) {
   });
 }
 
+// ========== THEME ==========
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+function updateToggleIcon() {
+  const btn = $("#themeToggle");
+  if (!btn) return;
+  const iconName = currentTheme() === "dark" ? "sun" : "moon";
+  btn.innerHTML = `<i data-lucide="${iconName}" width="18" height="18"></i>`;
+}
+function setTheme(t) {
+  if (t === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  localStorage.setItem("helix.theme", t);
+  updateToggleIcon();
+  lucide.createIcons();
+}
+const themeToggle = $("#themeToggle");
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    setTheme(currentTheme() === "dark" ? "light" : "dark");
+  });
+}
+
 // ========== INIT ==========
+updateToggleIcon();
 lucide.createIcons();

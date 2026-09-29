@@ -12,6 +12,14 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    (function () {
+      var t = localStorage.getItem("helix.theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -28,6 +36,7 @@
       <a href="#team">Team</a>
     </nav>
     <div style="display:flex;gap:8px;align-items:center">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode"><i data-lucide="moon" width="18" height="18"></i></button>
       <button id="menuBtn" aria-label="Menu"><i data-lucide="menu" width="18" height="18"></i></button>
       <a class="btn btn-p" href="#roles"><i data-lucide="arrow-up-right" width="15" height="15"></i><span
           style="margin-left:2px">Enter</span></a>
@@ -41,11 +50,11 @@
         <div class="hero-tag">Choose your role to enter</div>
         <h1>Find blood donors,&nbsp;<em>fast.</em></h1>
         <p>A simple site to register donors, search by blood group & area, and highlight emergencies — built fully in
-          the frontend. Pick one of the three portals below.</p>
+          the frontend.<!-- Pick one of the three portals below.--></p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
           <a class="hero-cta" href="recipient.html"><i data-lucide="search" width="16" height="16"></i> Find a donor</a>
           <a class="hero-cta" href="donor.html"
-            style="background:var(--ink);box-shadow:0 10px 28px rgba(28,20,18,.22)"><i data-lucide="user-plus"
+            style="background:var(--ink);color:var(--on-ink);box-shadow:0 10px 28px rgba(28,20,18,.22)"><i data-lucide="user-plus"
               width="16" height="16"></i> Register as donor</a>
           <a class="hero-cta" href="admin.html"
             style="background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none"><i
@@ -56,30 +65,27 @@
 
     <section class="sec reveal" id="roles">
       <div class="k">User roles</div>
-      <h2 class="h2">Three doors, one system.</h2>
-      <p class="sub">The landing page is the role decider. Each button opens a separate portal with the same design
-        system — pick the one that matches you.</p>
+      <h2 class="h2">How can we help you today?</h2>
+      <p class="sub">Whether you're looking for help, ready to donate, or managing the network, pick the path that fits your role.</p>
       <div class="steps">
         <div class="step">
           <div class="n">01</div>
-          <h3>Recipient · Find a donor</h3>
-          <p>Search the directory by blood group + area, view emergency broadcasts, post a request and check
-            compatibility.</p>
+          <h3>I need blood</h3>
+          <p>Search verified donors near you by blood group and city, share urgent requests, and check compatibility instantly.</p>
           <div style="margin-top:14px"><a class="btn btn-p" href="recipient.html"><i data-lucide="search" width="15"
-                height="15"></i> Open donor search</a></div>
+                height="15"></i> Search donors nearby</a></div>
         </div>
         <div class="step">
           <div class="n">02</div>
-          <h3>Donor · Register</h3>
-          <p>Join the directory in 30 seconds — name, group, city & phone. Browse donors and view emergencies.</p>
+          <h3>I want to donate</h3>
+          <p>Join our donor network in 30 seconds. Share your location and contact details so local patients can reach you when every minute counts.</p>
           <div style="margin-top:14px"><a class="btn btn-d" href="donor.html"><i data-lucide="user-plus" width="15"
-                height="15"></i> Register as donor</a></div>
+                height="15"></i> Make a difference</a></div>
         </div>
         <div class="step">
           <div class="n">03</div>
-          <h3>Admin · Dashboard</h3>
-          <p>Full access — metrics, directory, emergency broadcasts and compatibility. Add, broadcast and remove
-            records.</p>
+          <h3>Management Dashboard</h3>
+          <p>Oversee platform activity, manage donor registries, and dispatch emergency broadcasts when urgent needs arise.</p>
           <div style="margin-top:14px"><a class="btn btn-l" href="admin.html"><i data-lucide="layout-dashboard"
                 width="15" height="15"></i> Open dashboard</a></div>
         </div>
@@ -88,7 +94,7 @@
 
     <section class="sec reveal" id="features">
       <div class="k">What it does</div>
-      <h2 class="h2">Everything you need in 4 cards.</h2>
+      <h2 class="h2">Everything you need <!--in 4 cards.-->is covered here.</h2>
       <div class="feats">
         <div class="feat">
           <div class="ico"><i data-lucide="user-plus" width="19" height="19"></i></div>
@@ -98,7 +104,7 @@
         <div class="feat">
           <div class="ico"><i data-lucide="search" width="19" height="19"></i></div>
           <h3>Smart search</h3>
-          <p>Filter by blood group + neighbourhood to find nearby donors instantly.</p>
+          <p>Filter by blood group & neighbourhood to find nearby donors instantly.</p>
         </div>
         <div class="feat">
           <div class="ico"><i data-lucide="siren" width="19" height="19"></i></div>
@@ -108,7 +114,7 @@
         <div class="feat">
           <div class="ico"><i data-lucide="heart-pulse" width="19" height="19"></i></div>
           <h3>Compatibility guide</h3>
-          <p>Visual chart — O<sup>−</sup> gives to all, AB<sup>+</sup> receives from all.</p>
+          <p>Visual <!--chart-->compatibility guide — O<sup>−</sup> gives to all, AB<sup>+</sup> receives from all.</p>
         </div>
       </div>
     </section>
@@ -149,7 +155,7 @@
             <p>Gives red cells to all 8 groups. The one hospitals watch closely.</p>
           </div>
           <div class="uni"><b>AB<sup>+</sup> &nbsp; Universal recipient</b>
-            <p>Receives red cells from all 8 groups. Donates only to AB<sup>+</sup>.</p>
+            <p>Receives red cells from all 8 groups. Donates only to AB<sup>+</sup></p>
           </div>
         </div>
       </div>
@@ -184,8 +190,8 @@
 
       <div class="final">
         <div class="final-content">
-          <h2>One signup can save a life nearby.</h2>
-          <p>Recipients search, donors register, admins manage — choose your portal.</p>
+          <h2>One act can save multiple lives</h2>
+          <p>Donated blood can be separated into RBCs, platelets, plasma and cryoprecipitate, allowing components of one donation to help multiple patients.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
             <a class="btn btn-p" href="recipient.html" style="background:var(--accent-deep)"><i data-lucide="search"
                 width="15" height="15"></i> Find a donor</a>
@@ -206,10 +212,10 @@
         <a href="index.html" aria-label="Project Bloodline home">
           <img class="foot-logo" src="bloodline-logo-trimmed.png" alt="Project Bloodline" />
         </a>
-        <span style='color:#111'>Curious Builders · K4P26FE</span>
+        <span style='color:var(--ink)'>Curious Builders &nbsp;&nbsp;·&nbsp;&nbsp; K4P26FE</span>
       </div>
-      <div><a href="recipient.html" style="font-weight:700;color:var(--ink)">Find a donor →</a> · <a href="donor.html"
-          style="font-weight:700;color:var(--ink)">Register →</a> · <a href="admin.html"
+      <div><a href="recipient.html" style="font-weight:700;color:var(--ink)">Find a donor →</a> &nbsp;&nbsp;·&nbsp;&nbsp; <a href="donor.html"
+          style="font-weight:700;color:var(--ink)">Register →</a> &nbsp;&nbsp;·&nbsp;&nbsp; <a href="admin.html"
           style="font-weight:700;color:var(--ink)">Admin →</a></div>
     </div>
   </footer>

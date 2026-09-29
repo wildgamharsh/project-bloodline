@@ -12,6 +12,14 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    (function () {
+      var t = localStorage.getItem("helix.theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -28,6 +36,7 @@
       <button data-view="compat">Compatibility</button>
     </nav>
     <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode"><i data-lucide="moon" width="18" height="18"></i></button>
       <button class="icon-btn menu-toggle" id="menuBtn" aria-label="Menu"><i data-lucide="menu" width="18"
           height="18"></i></button>
       <button class="icon-btn" id="bellBtn" aria-label="Notifications">
@@ -41,8 +50,8 @@
       <button class="icon-btn" aria-label="Settings"><i data-lucide="settings" width="18" height="18"></i></button>
       <div class="profile">
         <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=80&q=80"
-          alt="Alex Rivera" />
-        <span>Alex Rivera</span>
+          alt="Aarav Sharma" />
+        <span>Aarav Sharma</span>
       </div>
     </div>
   </header>
@@ -52,7 +61,7 @@
     <section class="view active" id="view-dashboard">
       <div class="page-head">
         <div>
-          <h1 id="greet">Good morning, Alex</h1>
+          <h1 id="greet">Good morning, Aarav</h1>
           <p>Voluntary donor search and emergency blood requests, organised in one place.</p>
         </div>
         <div class="date-chip" id="todayDate"></div>
@@ -118,12 +127,12 @@
           <div class="hero-copy">
             <div>
               <div class="live"><i></i> Emergency broadcast</div>
-              <h2 id="heroTitle">O<sup>−</sup> needed at Harborview</h2>
+              <h2 id="heroTitle">O<sup>−</sup> needed at Lilavati</h2>
               <p id="heroText">Trauma patient requiring three units within two hours. O<sup>−</sup> is the universal
                 red-cell donor — nearby matches are listed in the directory.</p>
               <div class="hero-meta">
                 <span class="pill" id="heroGroup">O<sup>−</sup></span>
-                <span class="pill" id="heroLoc">Seattle · Harborview Medical</span>
+                <span class="pill" id="heroLoc">Mumbai &nbsp;&nbsp;·&nbsp;&nbsp; Lilavati Hospital, Bandra</span>
                 <span class="pill">Critical</span>
               </div>
             </div>
@@ -192,7 +201,7 @@
         <article class="card">
           <form id="donorForm">
             <label class="req">Full name
-              <input name="name" required maxlength="60" placeholder="Jordan Hale" />
+              <input name="name" required maxlength="60" placeholder="Aarav Sharma" />
             </label>
             <div class="form-row">
               <label class="req">Blood group
@@ -209,15 +218,15 @@
                 </select>
               </label>
               <label class="req">Contact number
-                <input name="phone" required placeholder="206-555-0142" pattern="[0-9+\-().\s]{7,20}" />
+                <input name="phone" required placeholder="+91 98765 43210" pattern="[0-9+\-().\s]{7,20}" />
               </label>
             </div>
             <div class="form-row">
               <label class="req">City
-                <input name="city" required placeholder="Seattle" />
+                <input name="city" required placeholder="Mumbai" />
               </label>
               <label class="req">Neighbourhood / area
-                <input name="area" required placeholder="Capitol Hill" />
+                <input name="area" required placeholder="Andheri West" />
               </label>
             </div>
             <p class="form-note">Project Bloodline is a frontend prototype. Do not submit real medical records to a
@@ -281,7 +290,7 @@
               </label>
             </div>
             <label class="req">Hospital / area
-              <input name="location" required placeholder="Boston · Mass General, West End" />
+              <input name="location" required placeholder="AIIMS, Ansari Nagar, Delhi" />
             </label>
             <label class="req">Patient / request notes
               <textarea name="info" required placeholder="Units needed, timeframe, ward"></textarea>
@@ -312,7 +321,6 @@
           </div>
           <div class="legend">
             <span><b style="background:var(--accent)"></b> Compatible</span>
-            <span><b style="background:var(--ink)"></b> Universal donor cell</span>
             <span><b style="background:var(--surface-2)"></b> Not compatible</span>
           </div>
         </article>
@@ -396,7 +404,7 @@
     function greet() {
       const h = new Date().getHours();
       const g = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-      $("#greet").textContent = `${g}, Alex`;
+      $("#greet").textContent = `${g}, Aarav`;
       $("#todayDate").textContent = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
     }
 

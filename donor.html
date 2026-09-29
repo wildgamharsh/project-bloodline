@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Project Bloodline — Donor Portal · Register as a Donor</title>
+  <title>Project Bloodline — Register as a Donor</title>
   <link rel="shortcut icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,14 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    (function () {
+      var t = localStorage.getItem("helix.theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -26,6 +34,7 @@
         portal</span>
     </div>
     <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode"><i data-lucide="moon" width="18" height="18"></i></button>
       <a href="index.html" class="btn btn-line btn-sm" style="white-space:nowrap">← Roles</a>
       <div class="profile" title="Donor portal">
         <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=80&q=80"
@@ -38,22 +47,21 @@
     <div class="page-head">
       <div>
         <h1>Register as a donor</h1>
-        <p>Donor portal — no menu, just the 30-second form. Your record is saved on this device and appears in search +
-          admin.</p>
+        <p>Join the donor directory in under a minute. Your details stay on this device and can be found through search and admin tools.</p>
       </div>
-      <div class="date-chip">Donor · Register only</div>
+      <div class="date-chip">DONOR REGISTRATION</div>
     </div>
     <section id="donor-register">
       <div class="grid-2">
         <article class="card">
           <form id="donorForm">
             <label class="req">Full name
-              <input name="name" required maxlength="60" placeholder="Jordan Hale" />
+              <input name="name" required maxlength="60" placeholder="Aarav Sharma" />
             </label>
             <div class="form-row">
               <label class="req">Blood group
                 <select name="group" required>
-                  <option value="">Select</option>
+                  <option value="">Select your blood group</option>
                   <option>A<sup>+</sup></option>
                   <option>A<sup>−</sup></option>
                   <option>B<sup>+</sup></option>
@@ -65,20 +73,20 @@
                 </select>
               </label>
               <label class="req">Contact number
-                <input name="phone" required placeholder="206-555-0142" pattern="[0-9+\-().\s]{7,20}" />
+                <input name="phone" required placeholder="+91 98765 43210" pattern="[0-9+\-().\s]{7,20}" />
               </label>
             </div>
             <div class="form-row">
               <label class="req">City
-                <input name="city" required placeholder="Seattle" />
+                <input name="city" required placeholder="Mumbai" />
               </label>
               <label class="req">Neighbourhood / area
-                <input name="area" required placeholder="Capitol Hill" />
+                <input name="area" required placeholder="Andheri West" />
               </label>
             </div>
-            <p class="form-note">Project Bloodline is a frontend prototype. Do not submit real medical records to a
-              public machine.</p>
-            <button class="btn btn-primary btn-full" type="submit">Add to directory</button>
+            <!-- <p class="form-note">Project Bloodline is a frontend prototype. Do not submit real medical records to a public machine.</p> -->
+            <p class="form-note">This is a prototype. Please don’t enter real medical or personal information.</p>
+            <button class="btn btn-primary btn-full" type="submit">I Hereby Share My BloodLine</button>
           </form>
         </article>
         <article class="card" style="padding:0;overflow:hidden;min-height:360px;position:relative">
@@ -87,7 +95,7 @@
             style="width:100%;height:100%;object-fit:cover;min-height:360px" />
           <div
             style="position:absolute;inset:auto 20px 20px 20px;background:rgba(28,20,18,.78);color:#f7efe9;padding:18px 20px;border-radius:16px">
-            <div class="serif" style="font-size:22px;margin-bottom:6px">One registration. A clearer search.</div>
+            <div class="serif" style="font-size:22px;margin-bottom:6px">Register once. Be easier to find.</div>
             <p style="font-size:13.5px;opacity:.8">O<sup>−</sup> and AB<sup>−</sup> are the groups families wait on
               longest. Listing yourself by area shortens that wait.</p>
           </div>

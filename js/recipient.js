@@ -1,9 +1,8 @@
-/* Project Bloodline — js/recipient.js | Recipient portal logic. Requires: data.js, store.js, ui.js (loaded before). */
+/* Project Bloodline — js/recipient.js | Recipient portal: search + post-only requests. Compatibility lives in donor cards + Admin matrix. */
 ;
     ;
     
     let activeGroup = "All";
-    let activeCompat = "O−";
     
     
     function initials(name) { return name.split(" ").map(p => p[0]).slice(0,2).join("").toUpperCase(); }
@@ -32,38 +31,32 @@
       wrap.onclick = e => { const b = e.target.closest("[data-g]"); if (!b) return; activeGroup = b.dataset.g; renderChips(); renderDirectory(); };
     }
     function renderEmerg() {
-      $("#eList").innerHTML = store.emerg.map(e => `
-        <article class="e-card ${e.status==="Critical"?"critical":""}">
-          <div><h3>${e.group} · ${e.location}</h3><p>${e.info}</p></div>
-          <span class="status ${e.status==="Critical"?"crit":"urg"}">${e.status}</span>
-        </article>`).join("") || `<div class="empty">No emergency broadcasts right now.</div>`;
-    }
-    function renderMatrix() {
-      const head = `<tr><th class="corner"></th>${GROUPS.map(g=>`<th>${g}</th>`).join("")}</tr>`;
-      const body = GROUPS.map(r => `<tr><th>${r}</th>${GROUPS.map(d => { const yes = COMPAT[r].receiveFrom.includes(d); const uni = d === "O−" && yes; return `<td class="${yes?"yes":""} ${uni?"uni":""}">${yes?"+":""}</td>`; }).join("")}</tr>`).join("");
-      $("#matrix").innerHTML = head + body;
-    }
-    function renderCompat() {
-      $("#compatBtns").innerHTML = GROUPS.map(g => `<button class="chip ${g===activeCompat?"active":""}" data-c="${g}">${g}</button>`).join("");
-      const c = COMPAT[activeCompat];
-      $("#donateTo").innerHTML = c.donateTo.map(g => badge(g)).join("");
-      $("#receiveFrom").innerHTML = c.receiveFrom.map(g => badge(g)).join("");
-      let note = `${activeCompat} red cells can be given to ${c.donateTo.join(", ")}.`;
-      if (activeCompat === "O−") note = "O− is the universal red-cell donor.";
-      if (activeCompat === "AB+") note = "AB+ is the universal red-cell recipient.";
-      $("#compatNote").textContent = note;
-      renderMatrix();
+      /* Post-only portal: recipients see only their own sent requests, never the live board. */
+      if (!Array.isArray(store.requests)) store.requests = [];
+      const myEl = $("#myReqList");
+      if (!myEl) return;
+      myEl.innerHTML = store.requests.map(r => `
+          <article class="e-card">
+            <div><h3>${r.group} · ${r.location}</h3><p>${r.info}</p><span class="status urg">Pending approval</span>
+              <div style="margin-top:10px"><button class="btn btn-line btn-sm" data-cancel-req="${r.id}">Cancel request</button></div>
+            </div>
+            <span class="status ${r.status==="Critical"?"crit":"urg"}">${r.status}</span>
+          </article>`).join("") || `<div class="empty">No requests sent yet. Your posts appear here until admin approves them.</div>`;
     }
     document.addEventListener("click", (e) => {
-      const c = e.target.closest("[data-c]");
-      if (c) { activeCompat = c.dataset.c; renderCompat(); }
+      const cancel = e.target.closest("[data-cancel-req]");
+      if (cancel) {
+        store.requests = (store.requests || []).filter(r => String(r.id) !== cancel.dataset.cancelReq);
+        save(); renderEmerg(); toast("Request cancelled.");
+      }
     });
     $("#emergForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const f = e.target;
-      store.emerg.unshift({ id: Date.now(), group: f.group.value, location: f.location.value.trim(), status: f.status.value, info: f.info.value.trim() });
-      save(); f.reset(); toast("Emergency broadcast posted."); renderEmerg();
+      if (!Array.isArray(store.requests)) store.requests = [];
+      store.requests.unshift({ id: Date.now(), group: f.group.value, location: f.location.value.trim(), status: f.status.value, info: f.info.value.trim() });
+      save(); f.reset(); toast("Request sent for admin approval."); renderEmerg();
     });
     $("#areaSearch").addEventListener("input", renderDirectory);
-    renderChips(); renderDirectory(); renderEmerg(); renderCompat();
+    renderChips(); renderDirectory(); renderEmerg();
     lucide.createIcons();

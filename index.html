@@ -22,6 +22,7 @@
     <a href="#roles">Choose role</a>
     <a href="#features">Features</a>
     <a href="#how">How it works</a>
+    <a href="#compatibility">Compatibility</a>
     <a href="#team">Team</a>
   </nav>
   <div style="display:flex;gap:8px;align-items:center">
@@ -34,12 +35,11 @@
 
   <div class="hero">
     <div class="hero-inner">
-      <div class="hero-tag">Choose your role to enter</div>
       <h1>Find blood donors, <em>fast.</em></h1>
-      <p>A simple site to register donors, search by blood group & area, and highlight emergencies — built fully in the frontend. Pick one of the three portals below.</p>
+      <p>A platform to register donors, search by blood group & area, and highlight emergencies — built fully in the frontend. Pick one of the three portals below.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
         <a class="hero-cta" href="pages/recipient.html"><i data-lucide="search" width="16" height="16"></i> Find a donor</a>
-        <a class="hero-cta" href="pages/donor.html" style="background:var(--ink);box-shadow:0 10px 28px rgba(28,20,18,.22)"><i data-lucide="heart-plus" width="16" height="16"></i> Register as donor</a>
+        <a class="hero-cta" href="pages/donor.html" style="background:var(--ink);box-shadow:0 10px 28px rgba(28,20,18,.22)"><i data-lucide="user-plus" width="16" height="16"></i> Register as donor</a>
         <a class="hero-cta" href="pages/admin.html" style="background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none"><i data-lucide="shield-check" width="16" height="16"></i> Admin dashboard</a>
       </div>
     </div>
@@ -50,9 +50,9 @@
     <h2 class="h2">Three doors, one system.</h2>
     <p class="sub">The landing page is the role decider. Each button opens a separate portal with the same design system — pick the one that matches you.</p>
     <div class="steps">
-      <div class="step"><div class="n">01</div><h3>Recipient · Find a donor</h3><p>Search the directory by blood group + area, view emergency broadcasts, post a request and check compatibility.</p><div style="margin-top:14px"><a class="btn btn-p" href="pages/recipient.html"><i data-lucide="search" width="15" height="15"></i> Open donor search</a></div></div>
-      <div class="step"><div class="n">02</div><h3>Donor · Register</h3><p>Join the directory in 30 seconds — name, group, city & phone. Browse donors and view emergencies.</p><div style="margin-top:14px"><a class="btn btn-d" href="pages/donor.html"><i data-lucide="user-plus" width="15" height="15"></i> Register as donor</a></div></div>
-      <div class="step"><div class="n">03</div><h3>Admin · Dashboard</h3><p>Full access — metrics, directory, emergency broadcasts and compatibility. Add, broadcast and remove records.</p><div style="margin-top:14px"><a class="btn btn-l" href="pages/admin.html"><i data-lucide="layout-dashboard" width="15" height="15"></i> Open dashboard</a></div></div>
+      <div class="step"><span class="role-tag">Recipient</span><h3>Find a donor</h3><p>Search the directory by blood group + area and post an emergency request for admin approval. Per-donor compatibility is inside each card.</p><div style="margin-top:14px"><a class="btn btn-p" href="pages/recipient.html"><i data-lucide="search" width="15" height="15"></i> Open donor search</a></div></div>
+      <div class="step"><span class="role-tag">Donor</span><h3>Register</h3><p>Join the directory in 30 seconds — name, group, city & phone. View live emergency broadcasts (read-only).</p><div style="margin-top:14px"><a class="btn btn-d" href="pages/donor.html"><i data-lucide="user-plus" width="15" height="15"></i> Register as donor</a></div></div>
+      <div class="step"><span class="role-tag">Admin</span><h3>Dashboard</h3><p>Full access — metrics, directory, approvals, emergency broadcasts and the compatibility matrix. Broadcast and remove records.</p><div style="margin-top:14px"><a class="btn btn-l" href="pages/admin.html"><i data-lucide="layout-dashboard" width="15" height="15"></i> Open dashboard</a></div></div>
     </div>
   </section>
 
@@ -79,17 +79,44 @@
   </section>
 
 
-  <section class="sec reveal">
-    <div class="compat">
-      <div>
-        <div class="k" style="color:#f4a494">Compatibility</div>
-        <h3>Who can give to whom?</h3>
-        <p>A simple visual — no medical jargon. Full interactive chart lives inside the app.</p>
-      </div>
-      <div>
-        <div class="uni"><b>O− · Universal donor</b><p>Gives red cells to all 8 groups. The one hospitals watch closely.</p></div>
-        <div class="uni"><b>AB+ · Universal recipient</b><p>Receives red cells from all 8 groups. Donates only to AB+.</p></div>
-      </div>
+  <section class="sec reveal" id="compatibility">
+    <div class="k">Blood compatibility</div>
+    <h2 class="h2">Who can give to whom?</h2>
+    <p class="sub">Red-cell donation and receiving across the eight major groups. O− donates to all; AB+ receives from all. Pick a group to check directly.</p>
+    <div class="grid-2">
+      <article class="card">
+        <div class="card-h">
+          <h2>Donor → recipient matrix</h2>
+          <span class="sub">Columns donate, rows receive</span>
+        </div>
+        <div class="matrix-wrap">
+          <table class="matrix" id="matrix"></table>
+        </div>
+        <div class="legend">
+          <span><b style="background:var(--accent)"></b> Compatible</span>
+          <span><b style="background:var(--ink)"></b> Universal donor cell</span>
+          <span><b style="background:var(--surface-2)"></b> Not compatible</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-h"><h2>Look up a group</h2></div>
+        <div class="compat-select" id="compatBtns"></div>
+        <div class="compat-panels">
+          <div class="compat-box">
+            <h3>Can donate red cells to</h3>
+            <div class="tag-list" id="donateTo"></div>
+          </div>
+          <div class="compat-box">
+            <h3>Can receive red cells from</h3>
+            <div class="tag-list" id="receiveFrom"></div>
+          </div>
+        </div>
+        <div class="note-callout" id="compatNote"></div>
+      </article>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+      <a class="btn btn-p" href="pages/recipient.html"><i data-lucide="search" width="15" height="15"></i> I need blood — find a donor</a>
+      <a class="btn btn-d" href="pages/donor.html"><i data-lucide="user-plus" width="15" height="15"></i> I can donate — register</a>
     </div>
   </section>
 
@@ -114,33 +141,20 @@
       </div>
     </div>
 
-    <div class="final">
-      <div class="final-content">
-        <h2>One signup can save a life nearby.</h2>
-        <p>Recipients search, donors register, admins manage — choose your portal.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
-          <a class="btn btn-p" href="pages/recipient.html"><i data-lucide="search" width="15" height="15"></i> Find a donor</a>
-          <a class="btn btn-p" href="pages/donor.html" style="background:#1c1412"><i data-lucide="droplets" width="15" height="15"></i> Register as donor</a>
-          <a class="btn btn-p" href="pages/admin.html" style="background:#fff;color:#1c1412"><i data-lucide="shield-check" width="15" height="15"></i> Admin dashboard</a>
-        </div>
-      </div>
-    </div>
   </section>
 
 </main>
 
 <footer>
   <div class="wrap foot">
-    <div style="display:flex;gap:10px;align-items:center">
-      <a href="index.html" aria-label="Project Bloodline home">
-        <img class="foot-logo" src="assets/bloodline-logo-trimmed.png" alt="Project Bloodline" />
-      </a>
-      <span>· Curious Builders · K4P26FE</span>
-    </div>
-    <div><a href="pages/recipient.html" style="font-weight:700;color:var(--ink)">Find a donor →</a> · <a href="pages/donor.html" style="font-weight:700;color:var(--ink)">Register →</a> · <a href="pages/admin.html" style="font-weight:700;color:var(--ink)">Admin →</a></div>
+    <a href="index.html" aria-label="Project Bloodline home">
+      <img class="foot-logo" src="assets/bloodline-logo-trimmed.png" alt="Project Bloodline" />
+    </a>
+    <span class="foot-note"><i data-lucide="info" width="13" height="13"></i> Academic demo for CSE326 coursework — not a real medical service. Data stays in your browser.</span>
   </div>
 </footer>
 
+<script src="js/data.js"></script>
 <script src="js/landing.js"></script>
 </body>
 </html>

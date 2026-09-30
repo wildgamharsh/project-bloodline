@@ -22,7 +22,7 @@ let activeGroup = "All";
           </div>
           <span class="view-hint">Tap to view details →</span>
         </div>
-        <div style="display:flex;gap:8px;align-items:center">${badge(d.group)}<button class="btn btn-line btn-sm" data-del-donor="${d.id}" title="Remove donor (admin)">Remove</button></div>
+        <div style="display:flex;gap:8px;align-items:center">${badge(d.group)}<button class="btn btn-line btn-sm" data-manage-donor="${d.id}" title="Manage donor (admin)">Manage</button></div>
       </article>`;
     }
     function toast(msg) {
@@ -30,6 +30,86 @@ let activeGroup = "All";
       t.textContent = msg;
       t.classList.add("show");
       setTimeout(() => t.classList.remove("show"), 2600);
+    }
+    function digitsOnly(phone) { return String(phone).replace(/\D/g, ""); }
+    function normalizePhone(phone) {
+      var d = digitsOnly(phone);
+      if (d.length === 12 && d.indexOf("91") === 0) d = d.slice(2);
+      if (d.length === 11 && d.charAt(0) === "0") d = d.slice(1);
+      return d;
+    }
+    function isValidIndianMobile(phone) { return /^[6-9]\d{9}$/.test(normalizePhone(phone)); }
+
+    /* Manage modal — reuses the exact donor-modal combo from ui.js (overlay, dialog, actions). */
+    function closeManageModal() {
+      var m = document.getElementById("adminManageModal");
+      if (m && m.parentNode) m.parentNode.removeChild(m);
+      document.body.style.overflow = "";
+    }
+    function openManageModal(id) {
+      var d = null;
+      try { d = store.donors.filter(function (x) { return String(x.id) === String(id); })[0] || null; } catch (e) { d = null; }
+      if (!d) return;
+      closeManageModal();
+      var overlay = document.createElement("div");
+      overlay.className = "donor-modal-overlay";
+      overlay.id = "adminManageModal";
+      overlay.innerHTML =
+        '<div class="donor-modal" role="dialog" aria-modal="true" aria-label="Manage donor">' +
+          '<button class="donor-modal-x" data-close-manage aria-label="Close">✕</button>' +
+          '<div class="donor-modal-head"><div class="avatar avatar-lg">' + initials(d.name) + '</div>' +
+          '<div><h2>' + d.name + '</h2><p>' + d.area + ', ' + d.city + '</p></div>' + badge(d.group) + '</div>' +
+          '<form id="manageEditForm" style="margin-top:16px">' +
+            '<label>Full name<input name="name" required maxlength="60" value="' + String(d.name).replace(/"/g, "") + '" /></label>' +
+            '<div class="form-row">' +
+              '<label>Blood group<select name="group" required>' + GROUPS.map(function (g) { return '<option' + (g === d.group ? ' selected' : '') + '>' + g + '</option>'; }).join('') + '</select></label>' +
+              '<label>Contact number<input name="phone" required value="' + String(d.phone).replace(/"/g, "") + '" /></label>' +
+            '</div>' +
+            '<div class="form-row">' +
+              '<label>City<input name="city" required value="' + String(d.city).replace(/"/g, "") + '" /></label>' +
+              '<label>Neighbourhood / area<input name="area" required value="' + String(d.area).replace(/"/g, "") + '" /></label>' +
+            '</div>' +
+            '<div class="donor-modal-actions">' +
+              '<button class="btn btn-primary" type="submit">Save changes</button>' +
+              '<button class="btn btn-line" type="button" data-del-step="1">Delete donor</button>' +
+            '</div>' +
+          '</form>' +
+        '</div>';
+      document.body.appendChild(overlay);
+      document.body.style.overflow = "hidden";
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay || e.target.closest("[data-close-manage]")) { closeManageModal(); return; }
+        var del = e.target.closest("[data-del-step]");
+        if (del) {
+          if (del.getAttribute("data-del-step") === "1") {
+            del.setAttribute("data-del-step", "2");
+            del.textContent = "Confirm delete?";
+            del.classList.remove("btn-line");
+            del.classList.add("btn-primary");
+            toast("Click again to confirm delete.");
+          } else {
+            store.donors = store.donors.filter(function (x) { return String(x.id) !== String(d.id); });
+            save(); closeManageModal(); refresh(); toast("Donor deleted by admin.");
+          }
+          return;
+        }
+      });
+      overlay.querySelector("#manageEditForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var f = e.target;
+        var name = f.name.value.trim();
+        var group = f.group.value;
+        var city = f.city.value.trim();
+        var area = f.area.value.trim();
+        var phone = f.phone.value.trim();
+        if (name.length < 2) { toast("Please enter a valid name."); return; }
+        if (!isValidIndianMobile(phone)) { toast("Enter a valid 10-digit Indian mobile number."); return; }
+        var dup = store.donors.some(function (x) { return String(x.id) !== String(d.id) && normalizePhone(x.phone) === normalizePhone(phone); });
+        if (dup) { toast("This number belongs to another donor."); return; }
+        d.name = name; d.group = group; d.city = city; d.area = area; d.phone = phone;
+        save(); closeManageModal(); refresh(); toast("Donor updated.");
+      });
+      if (window.lucide) lucide.createIcons();
     }
 
     function setView(name) {
@@ -109,12 +189,34 @@ let activeGroup = "All";
         if (findBtn) findBtn.dataset.filter = e.group;
       }
 
-      $("#bellList").innerHTML = store.emerg.map(x =>
+      const pending = Array.isArray(store.requests) ? store.requests : (store.requests = []);
+      const pendHtml = pending.map(x =>
+        `<div class="n-item"><strong>Pending: ${x.group}</strong>${x.location}</div>`
+      ).join("");
+      const liveHtml = store.emerg.map(x =>
         `<div class="n-item"><strong>${x.status}: ${x.group}</strong>${x.location}</div>`
-      ).join("") || `<div class="n-item">No open requests.</div>`;
+      ).join("");
+      $("#bellList").innerHTML = (pendHtml + liveHtml) || `<div class="n-item">No open requests.</div>`;
     }
 
     function renderEmerg() {
+      if (!Array.isArray(store.requests)) store.requests = [];
+      const reqEl = $("#reqList");
+      if (reqEl) {
+        reqEl.innerHTML = store.requests.map(r => `
+          <article class="e-card">
+            <div>
+              <h3>${r.group} · ${r.location}</h3>
+              <p>${r.info}</p>
+              <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-primary btn-sm" data-approve-req="${r.id}">Approve & broadcast</button>
+                <button class="btn btn-line btn-sm" data-reject-req="${r.id}">Reject</button>
+              </div>
+            </div>
+            <span class="status ${r.status==="Critical"?"crit":"urg"}">${r.status} · pending</span>
+          </article>
+        `).join("") || `<div class="empty">No pending requests. Recipient posts appear here.</div>`;
+      }
       $("#eList").innerHTML = store.emerg.map(e => `
         <article class="e-card ${e.status==="Critical"?"critical":""}">
           <div>
@@ -172,17 +274,32 @@ let activeGroup = "All";
       lucide.createIcons();
     }
 
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeManageModal();
+    });
     document.addEventListener("click", (e) => {
-      const delD = e.target.closest("[data-del-donor]");
-      if (delD) {
-        store.donors = store.donors.filter(d => String(d.id) !== delD.dataset.delDonor);
-        save(); refresh(); toast("Donor removed by admin.");
-        return;
-      }
+      const manage = e.target.closest("[data-manage-donor]");
+      if (manage) { openManageModal(manage.dataset.manageDonor); return; }
       const delE = e.target.closest("[data-del-emerg]");
       if (delE) {
         store.emerg = store.emerg.filter(x => String(x.id) !== delE.dataset.delEmerg);
         save(); refresh(); toast("Emergency request closed by admin.");
+        return;
+      }
+      const approve = e.target.closest("[data-approve-req]");
+      if (approve) {
+        const req = (store.requests || []).filter(r => String(r.id) === approve.dataset.approveReq)[0];
+        if (req) {
+          store.requests = store.requests.filter(r => String(r.id) !== approve.dataset.approveReq);
+          store.emerg.unshift({ id: req.id, group: req.group, location: req.location, status: req.status, info: req.info });
+          save(); refresh(); toast("Request approved — now live.");
+        }
+        return;
+      }
+      const reject = e.target.closest("[data-reject-req]");
+      if (reject) {
+        store.requests = (store.requests || []).filter(r => String(r.id) !== reject.dataset.rejectReq);
+        save(); refresh(); toast("Request rejected.");
         return;
       }
       const nav = e.target.closest("[data-view]");
@@ -198,24 +315,7 @@ let activeGroup = "All";
       if (c) { activeCompat = c.dataset.c; renderCompat(); lucide.createIcons(); }
     });
 
-    $("#donorForm")?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const f = e.target;
-      const donor = {
-        id: Date.now(),
-        name: f.name.value.trim(),
-        group: f.group.value,
-        city: f.city.value.trim(),
-        area: f.area.value.trim(),
-        phone: f.phone.value.trim()
-      };
-      store.donors.push(donor);
-      save();
-      f.reset();
-      toast(`${donor.name} added to the directory.`);
-      refresh();
-      setView("donors");
-    });
+    /* Admins manage — donors register via Donor portal. No admin-side donorForm by design. */
 
     $("#emergForm").addEventListener("submit", (e) => {
       e.preventDefault();

@@ -51,7 +51,7 @@
       <div class="page-head">
         <div>
           <h1 id="greet">Good morning, Alex</h1>
-          <p>Admin overview — monitor donors, emergencies and coverage. You can add, broadcast and remove records.</p>
+          <p>Admin overview — monitor donors, emergencies and coverage. You can broadcast and remove records.</p>
         </div>
         <div class="date-chip" id="todayDate"></div>
       </div>
@@ -186,11 +186,17 @@
       </div>
       <div class="grid-2">
         <article class="card">
-          <div class="card-h"><h2>Active broadcast</h2></div>
-          <div class="e-list" id="eList"></div>
+          <div class="card-h"><h2>Pending requests</h2><span class="sub">From recipients — approve to broadcast</span></div>
+          <div class="e-list" id="reqList"></div>
         </article>
         <article class="card">
-          <div class="card-h"><h2>Post a request</h2></div>
+          <div class="card-h"><h2>Active broadcast</h2><span class="sub">Live for donors + recipients</span></div>
+          <div class="e-list" id="eList"></div>
+        </article>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <article class="card">
+          <div class="card-h"><h2>Post a broadcast</h2><span class="sub">Admin posts go live instantly</span></div>
           <form id="emergForm">
             <div class="form-row">
               <label class="req">Required group
@@ -216,6 +222,10 @@
             <button class="btn btn-primary btn-full" type="submit">Broadcast request</button>
           </form>
         </article>
+        <article class="card">
+          <div class="card-h"><h2>How approvals work</h2></div>
+          <p class="insight">Recipients send requests to the pending queue. Approving moves a request to the live broadcast visible in Recipient + Donor portals. Rejecting removes it.</p>
+        </article>
       </div>
     </section>
 
@@ -224,7 +234,7 @@
       <div class="page-head">
         <div>
           <h1>Blood compatibility</h1>
-          <p>Red-cell donation and receiving across the eight major groups. O− donates to all; AB+ receives from all.</p>
+          <p>Single reference matrix for the whole system. Recipient + Donor portals show per-donor compatibility inside each card instead of this full table.</p>
         </div>
       </div>
       <div class="grid-2">

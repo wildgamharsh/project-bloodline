@@ -36,7 +36,7 @@
     <div class="page-head">
       <div>
         <h1>Find a donor</h1>
-        <p>Recipient portal — no dashboard, no menu. Search below, post an emergency, check compatibility.</p>
+        <p>Recipient portal — search below and post an emergency request. Compatibility for each donor is shown inside their card.</p>
       </div>
       <a class="btn btn-line btn-sm" href="donor.html">Want to donate? Register →</a>
     </div>
@@ -55,17 +55,13 @@
     <section id="seek-emergency">
       <div class="page-head">
         <div>
-          <h1>Emergency requests</h1>
-          <p>Urgent requirements are broadcast in red so available donors can act without scrolling.</p>
+          <h1>Request emergency blood</h1>
+          <p>Post only — live broadcasts are visible to donors and admins. Your sent requests appear below until approved.</p>
         </div>
       </div>
       <div class="grid-2">
         <article class="card">
-          <div class="card-h"><h2>Active broadcast</h2></div>
-          <div class="e-list" id="eList"></div>
-        </article>
-        <article class="card">
-          <div class="card-h"><h2>Post a request</h2></div>
+          <div class="card-h"><h2>Post a request</h2><span class="sub">Sent for admin approval</span></div>
           <form id="emergForm">
             <div class="form-row">
               <label class="req">Required group
@@ -88,47 +84,13 @@
             <label class="req">Patient / request notes
               <textarea name="info" required placeholder="Units needed, timeframe, ward"></textarea>
             </label>
-            <button class="btn btn-primary btn-full" type="submit">Broadcast request</button>
+            <button class="btn btn-primary btn-full" type="submit">Send request for approval</button>
+            <p class="form-note">Requests go to the admin queue first. Only approved broadcasts appear publicly.</p>
           </form>
         </article>
-      </div>
-    </section>
-    <section id="seek-compat">
-      <div class="page-head">
-        <div>
-          <h1>Blood compatibility</h1>
-          <p>Red-cell donation and receiving across the eight major groups. O− donates to all; AB+ receives from all.</p>
-        </div>
-      </div>
-      <div class="grid-2">
         <article class="card">
-          <div class="card-h">
-            <h2>Donor → recipient matrix</h2>
-            <span class="sub">Columns donate, rows receive</span>
-          </div>
-          <div class="matrix-wrap">
-            <table class="matrix" id="matrix"></table>
-          </div>
-          <div class="legend">
-            <span><b style="background:var(--accent)"></b> Compatible</span>
-            <span><b style="background:var(--ink)"></b> Universal donor cell</span>
-            <span><b style="background:var(--surface-2)"></b> Not compatible</span>
-          </div>
-        </article>
-        <article class="card">
-          <div class="card-h"><h2>Look up a group</h2></div>
-          <div class="compat-select" id="compatBtns"></div>
-          <div class="compat-panels">
-            <div class="compat-box">
-              <h3>Can donate red cells to</h3>
-              <div class="tag-list" id="donateTo"></div>
-            </div>
-            <div class="compat-box">
-              <h3>Can receive red cells from</h3>
-              <div class="tag-list" id="receiveFrom"></div>
-            </div>
-          </div>
-          <div class="note-callout" id="compatNote"></div>
+          <div class="card-h"><h2>My sent requests</h2><span class="sub">Awaiting admin approval</span></div>
+          <div class="e-list" id="myReqList"></div>
         </article>
       </div>
     </section>

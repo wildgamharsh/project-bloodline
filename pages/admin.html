@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Bloodline — Admin Dashboard</title>
+  <link rel="icon" type="image/png" href="../assets/bloodline-logo-trimmed.png" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/nav.css" />
+<link rel="stylesheet" href="../css/portal.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/theme.css" />
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+  (function () {
+    try {
+      var t = localStorage.getItem("helix.theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch (e) {}
+  })();
+  </script>
+  
+</head>
+<body>
+  <header class="nav">
+    <a class="brand-logo" href="../index.html" aria-label="Project Bloodline home">
+      <img src="../assets/bloodline-logo-trimmed.png" alt="Project Bloodline" />
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <button class="active" data-view="dashboard">Dashboard</button>
+      <button data-view="donors">Donors</button>
+      <button data-view="emergency">Emergency</button>
+      <button data-view="compat">Compatibility</button>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode"><i data-lucide="moon" width="18" height="18"></i></button>
+      <button class="icon-btn menu-toggle" id="menuBtn" aria-label="Menu"><i data-lucide="menu" width="18" height="18"></i></button>
+      <button class="icon-btn" id="bellBtn" aria-label="Notifications">
+        <i data-lucide="bell" width="18" height="18"></i>
+        <span class="dot"></span>
+      </button>
+      <div class="panel" id="bellPanel">
+        <h4>Requests in queue</h4>
+        <div id="bellList"></div>
+      </div>
+      <button class="icon-btn" aria-label="Settings"><i data-lucide="settings" width="18" height="18"></i></button>
+      <div class="profile" title="Admin role">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&q=80" alt="Admin" />
+        <span>Admin · Full access</span>
+      </div>
+      <a href="../index.html" class="btn btn-line btn-sm" style="white-space:nowrap">← Roles</a>
+    </div>
+  </header>
+
+  <main class="app">
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="page-head">
+        <div>
+          <h1 id="greet">Good morning, Alex</h1>
+          <p>Admin overview — monitor donors, emergencies and coverage. You can broadcast and remove records.</p>
+        </div>
+        <div class="date-chip" id="todayDate"></div>
+      </div>
+
+      <div class="metrics">
+        <article class="metric">
+          <div>
+            <div class="label">Registered donors</div>
+            <div class="value" id="mDonors">0</div>
+            <div class="hint">Stored on this device</div>
+          </div>
+          <div class="metric-ico"><i data-lucide="users" width="18" height="18"></i></div>
+        </article>
+        <article class="metric">
+          <div>
+            <div class="label">Open emergencies</div>
+            <div class="value" id="mEmerg">0</div>
+            <div class="hint">Critical requests highlighted</div>
+          </div>
+          <div class="metric-ico warn"><i data-lucide="siren" width="18" height="18"></i></div>
+        </article>
+        <article class="metric">
+          <div>
+            <div class="label">Groups covered</div>
+            <div class="value" id="mGroups">0</div>
+            <div class="hint">Of 8 major blood groups</div>
+          </div>
+          <div class="metric-ico alt"><i data-lucide="heart-pulse" width="18" height="18"></i></div>
+        </article>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="card-h">
+            <h2>Donors by group</h2>
+            <span class="sub">Live from directory</span>
+          </div>
+          <div class="bars" id="groupBars"></div>
+        </article>
+        <article class="card">
+          <div class="card-h">
+            <h2>Recent donors</h2>
+            <button class="btn btn-line btn-sm" data-view="donors">View all</button>
+          </div>
+          <div class="donor-list" id="recentDonors" style="max-height:280px"></div>
+        </article>
+        <article class="card">
+          <div class="card-h">
+              <h2>How Bloodline works</h2>
+          </div>
+          <p class="insight">Register once. Details stay in this browser — no server. Search by blood group and neighbourhood, then call a donor directly.</p>
+          <div style="display:grid;gap:10px;margin-top:16px">
+            <button class="btn btn-dark" data-view="donors">Manage donors</button>
+            <button class="btn btn-line" data-view="compat">Open compatibility matrix</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid-2">
+        <article class="card hero">
+          <div class="hero-copy">
+            <div>
+              <div class="live"><i></i> Emergency broadcast</div>
+              <h2 id="heroTitle">O− needed in Ludhiana</h2>
+              <p id="heroText">Trauma patient requiring three units within two hours. O− is the universal red-cell donor — nearby matches are listed in the directory.</p>
+              <div class="hero-meta">
+                <span class="pill" id="heroGroup">O−</span>
+                <span class="pill" id="heroLoc">Ludhiana · DMC Hospital</span>
+                <span class="pill">Critical</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary" data-view="donors" data-filter="O-">Find matching donors</button>
+              <button class="btn btn-ghost" data-view="emergency">All requests</button>
+            </div>
+          </div>
+          <div class="hero-art">
+            <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1200&q=80" alt="Blood donation supplies in a clinical setting" />
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-h">
+            <h2>Rare-type coverage</h2>
+            <span class="sub">Share of directory</span>
+          </div>
+          <div class="rings">
+            <div class="ring-wrap">
+              <div class="ring" id="ringOn" style="--p:0"><span id="ringOnVal">0%</span></div>
+              <small>O− universal donor</small>
+            </div>
+            <div class="ring-wrap">
+              <div class="ring coral" id="ringAbn" style="--p:0"><span id="ringAbnVal">0%</span></div>
+              <small>AB− inventory</small>
+            </div>
+          </div>
+          <p class="insight" id="insight" style="margin-top:18px"></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DONORS -->
+    <section class="view" id="view-donors">
+      <div class="page-head">
+        <div>
+          <h1>Donor directory</h1>
+          <p>Filter by blood group and neighbourhood or city. Contact details are shown for voluntary donors only.</p>
+        </div>
+        <span class="date-chip">Admin manages — donors register via Donor portal</span>
+      </div>
+      <article class="card">
+        <div class="filters">
+          <div class="chips" id="groupChips"></div>
+          <div class="search">
+            <i data-lucide="search" width="16" height="16"></i>
+            <input id="areaSearch" type="search" placeholder="Search name, city, area or blood group" />
+          </div>
+        </div>
+        <div class="donor-list" id="donorList"></div>
+      </article>
+    </section>
+
+    <!-- REGISTER removed for Admin role: admins manage, donors register via donor.html -->
+
+    <!-- EMERGENCY -->
+    <section class="view" id="view-emergency">
+      <div class="page-head">
+        <div>
+          <h1>Emergency requests</h1>
+          <p>Urgent requirements are broadcast in red so available donors can act without scrolling.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-h"><h2>Pending requests</h2><span class="sub">From recipients — approve to broadcast</span></div>
+          <div class="e-list" id="reqList"></div>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>Active broadcast</h2><span class="sub">Live for donors + recipients</span></div>
+          <div class="e-list" id="eList"></div>
+        </article>
+      </div>
+      <div class="grid-2" style="margin-top:16px">
+        <article class="card">
+          <div class="card-h"><h2>Post a broadcast</h2><span class="sub">Admin posts go live instantly</span></div>
+          <form id="emergForm">
+            <div class="form-row">
+              <label class="req">Required group
+                <select name="group" required>
+                  <option value="">Select</option>
+                  <option>A+</option><option>A−</option><option>B+</option><option>B−</option>
+                  <option>AB+</option><option>AB−</option><option>O+</option><option>O−</option>
+                </select>
+              </label>
+              <label class="req">Urgency
+                <select name="status" required>
+                  <option>Critical</option>
+                  <option>Urgent</option>
+                </select>
+              </label>
+            </div>
+            <label class="req">Hospital / area
+              <input name="location" required placeholder="Ludhiana · DMC Hospital, Tagore Nagar" />
+            </label>
+            <label class="req">Patient / request notes
+              <textarea name="info" required placeholder="Units needed, timeframe, ward"></textarea>
+            </label>
+            <button class="btn btn-primary btn-full" type="submit">Broadcast request</button>
+          </form>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>How approvals work</h2></div>
+          <p class="insight">Recipients send requests to the pending queue. Approving moves a request to the live broadcast visible in Recipient + Donor portals. Rejecting removes it.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- COMPAT -->
+    <section class="view" id="view-compat">
+      <div class="page-head">
+        <div>
+          <h1>Blood compatibility</h1>
+          <p>Single reference matrix for the whole system. Recipient + Donor portals show per-donor compatibility inside each card instead of this full table.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-h">
+            <h2>Donor → recipient matrix</h2>
+            <span class="sub">Columns donate, rows receive</span>
+          </div>
+          <div class="matrix-wrap">
+            <table class="matrix" id="matrix"></table>
+          </div>
+          <div class="legend">
+            <span><b style="background:var(--accent)"></b> Compatible</span>
+            <span><b style="background:var(--ink)"></b> Universal donor cell</span>
+            <span><b style="background:var(--surface-2)"></b> Not compatible</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>Look up a group</h2></div>
+          <div class="compat-select" id="compatBtns"></div>
+          <div class="compat-panels">
+            <div class="compat-box">
+              <h3>Can donate red cells to</h3>
+              <div class="tag-list" id="donateTo"></div>
+            </div>
+            <div class="compat-box">
+              <h3>Can receive red cells from</h3>
+              <div class="tag-list" id="receiveFrom"></div>
+            </div>
+          </div>
+          <div class="note-callout" id="compatNote"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/data.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/ui.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

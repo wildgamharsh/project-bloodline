@@ -1,0 +1,45 @@
+/* Project Bloodline — base.css | Design tokens, reset, body defaults. Loaded by every page. | See README.md for structure */
+:root {
+      --bg: #f4f0eb;
+      --bg-warm: #efe8e1;
+      --surface: #fffcf9;
+      --surface-2: #f3ece6;
+      --ink: #1c1412;
+      --ink-2: #4a3f3a;
+      --ink-3: #7a6e67;
+      --line: #e6dcd3;
+      --line-strong: #d4c6bb;
+      --accent: #c4352b;
+      --accent-deep: #9e241c;
+      --coral: #e07058;
+      --coral-soft: #f4a494;
+      --accent-soft: #f8e8e4;
+      --accent-wash: #fdf3f0;
+      --green: #2f5d45;
+      --green-soft: #e4efe8;
+      --amber: #9a5b1f;
+      --amber-soft: #f6ead8;
+      --shadow: 0 1px 2px rgba(28, 20, 18, 0.04), 0 12px 32px rgba(28, 20, 18, 0.06);
+      --shadow-sm: 0 1px 2px rgba(28, 20, 18, 0.05);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --nav-h: 72px;
+      --grad: linear-gradient(135deg, #c4352b 0%, #e07058 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: "Outfit", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    button, input, select, textarea { font-family: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    .serif { font-family: "Fraunces", Georgia, serif; }

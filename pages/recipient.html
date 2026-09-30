@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Bloodline — Find a Donor · Recipient Portal</title>
+  <link rel="icon" type="image/png" href="../assets/bloodline-logo-trimmed.png" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/nav.css" />
+<link rel="stylesheet" href="../css/portal.css" />
+<link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/theme.css" />
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+  (function () {
+    try {
+      var t = localStorage.getItem("helix.theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch (e) {}
+  })();
+  </script>
+  
+  
+</head>
+<body>
+  <header class="nav">
+    <a class="brand-logo" href="../index.html" aria-label="Project Bloodline home">
+      <img src="../assets/bloodline-logo-trimmed.png" alt="Project Bloodline" />
+    </a>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)">
+      <span style="background:var(--surface);border:1px solid var(--line);padding:7px 12px;border-radius:999px">Recipient portal</span>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode"><i data-lucide="moon" width="18" height="18"></i></button>
+      <a href="../index.html" class="btn btn-line btn-sm" style="white-space:nowrap">← Roles</a>
+      <div class="profile" title="Recipient portal">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="Seeker" />
+        <span>Seeker</span>
+      </div>
+    </div>
+  </header>
+  <main class="app">
+    <div class="page-head">
+      <div>
+        <h1>Find a donor</h1>
+        <p>Recipient portal — search below and post an emergency request. Compatibility for each donor is shown inside their card.</p>
+      </div>
+      <a class="btn btn-line btn-sm" href="donor.html">Want to donate? Register →</a>
+    </div>
+    <section id="seek-find">
+      <article class="card">
+        <div class="filters">
+          <div class="chips" id="groupChips"></div>
+          <div class="search">
+            <i data-lucide="search" width="16" height="16"></i>
+            <input id="areaSearch" type="search" placeholder="Search name, city, area or blood group" />
+          </div>
+        </div>
+        <div class="donor-list" id="donorList"></div>
+      </article>
+    </section>
+    <section id="seek-emergency">
+      <div class="page-head">
+        <div>
+          <h1>Request emergency blood</h1>
+          <p>Post only — live broadcasts are visible to donors and admins. Your sent requests appear below until approved.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-h"><h2>Post a request</h2><span class="sub">Sent for admin approval</span></div>
+          <form id="emergForm">
+            <div class="form-row">
+              <label class="req">Required group
+                <select name="group" required>
+                  <option value="">Select</option>
+                  <option>A+</option><option>A−</option><option>B+</option><option>B−</option>
+                  <option>AB+</option><option>AB−</option><option>O+</option><option>O−</option>
+                </select>
+              </label>
+              <label class="req">Urgency
+                <select name="status" required>
+                  <option>Critical</option>
+                  <option>Urgent</option>
+                </select>
+              </label>
+            </div>
+            <label class="req">Hospital / area
+              <input name="location" required placeholder="Ludhiana · DMC Hospital, Tagore Nagar" />
+            </label>
+            <label class="req">Patient / request notes
+              <textarea name="info" required placeholder="Units needed, timeframe, ward"></textarea>
+            </label>
+            <button class="btn btn-primary btn-full" type="submit">Send request for approval</button>
+            <p class="form-note">Requests go to the admin queue first. Only approved broadcasts appear publicly.</p>
+          </form>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>My sent requests</h2><span class="sub">Awaiting admin approval</span></div>
+          <div class="e-list" id="myReqList"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script src="../js/data.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/ui.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/recipient.js"></script>
+</body>
+</html>

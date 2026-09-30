@@ -1,0 +1,99 @@
+/* Project Bloodline — css/theme.css | Dark-mode tokens + overrides (ported from dev, adapted to pages/css/js structure). Loaded last on every page. | See README.md */
+:root {
+  --dark: #2a1613;
+  --on-ink: #faf6f2;
+}
+
+/* --- Dark Theme tokens --- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #161110;
+  --bg-warm: #1c1615;
+  --surface: #211a18;
+  --surface-2: #2a2220;
+  --ink: #f2ebe6;
+  --ink-2: #c9bcb4;
+  --ink-3: #9a8d85;
+  --line: #352b28;
+  --line-strong: #4a3d38;
+  --accent: #e0584a;
+  --accent-deep: #c4352b;
+  --coral: #e88a72;
+  --coral-soft: #a05a4a;
+  --accent-soft: #3a2220;
+  --accent-wash: #2a1a18;
+  --green: #5a9a7a;
+  --green-soft: #1f2f28;
+  --amber: #d08a3e;
+  --amber-soft: #33271a;
+  --dark: #0f0b0a;
+  --on-ink: #1c1412;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 12px 32px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .nav { background: rgba(22, 17, 16, 0.86); }
+[data-theme="dark"] .donor { background: var(--surface); }
+
+[data-theme="dark"] .g-an, [data-theme="dark"] .g-ap { background: #4a2a24; color: #f0c4ba; }
+[data-theme="dark"] .g-bn, [data-theme="dark"] .g-bp { background: #3d2e22; color: #e0c4a8; }
+[data-theme="dark"] .g-abn, [data-theme="dark"] .g-abp { background: #352a3d; color: #c4a8d0; }
+[data-theme="dark"] .b-ab { background: #352a3d; color: #c4a8d0; }
+
+[data-theme="dark"] .ring { background: conic-gradient(var(--accent) calc(var(--p) * 1%), #352b28 0); }
+[data-theme="dark"] .ring.coral { background: conic-gradient(var(--coral) calc(var(--p) * 1%), #352b28 0); }
+
+[data-theme="dark"] .e-card { border-color: #4a2a24; background: linear-gradient(180deg, #2a1a18, var(--surface)); }
+[data-theme="dark"] .e-card.critical { border-color: #5a2a24; background: linear-gradient(180deg, #3a1a18, var(--surface)); }
+
+[data-theme="dark"] .note-callout { border-color: #4a2a24; }
+
+[data-theme="dark"] .req-card { border-color: #4a2a24; background: linear-gradient(180deg, #2a1a18, var(--surface)); }
+[data-theme="dark"] .req-card.c { border-color: #5a2a24; background: linear-gradient(180deg, #3a1a18, var(--surface)); }
+
+[data-theme="dark"] .toast { background: #f2ebe6; color: #1c1412; }
+
+[data-theme="dark"] .nav-links button.active { background: #f2ebe6; color: #1c1412; }
+[data-theme="dark"] .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+[data-theme="dark"] .btn-dark { background: #f2ebe6; color: #1c1412; }
+[data-theme="dark"] .btn-dark:hover { background: #e0d5ce; }
+[data-theme="dark"] .feat:nth-child(3) .ico { background: #f2ebe6; color: #1c1412; }
+
+[data-theme="dark"] .avatar,
+[data-theme="dark"] .av { color: #f0c4ba; background: #3a2220; }
+
+[data-theme="dark"] .status.urg { background: #4a3520; color: #e8a050; }
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus { background: var(--surface); }
+
+/* Logo brightness in dark mode */
+[data-theme="dark"] .brand-logo img {
+  filter: brightness(1.5) saturate(3);
+}
+[data-theme="dark"] .foot-logo {
+  filter: brightness(3) saturate(5);
+}
+
+/* Donor modal + compat + tracker surfaces follow theme (master-only classes). */
+[data-theme="dark"] .donor-modal { background: var(--surface); border-color: var(--line); }
+[data-theme="dark"] .donor-modal-overlay { background: rgba(0, 0, 0, 0.6); }
+[data-theme="dark"] .compat { background: var(--dark); }
+[data-theme="dark"] .final::after { background: linear-gradient(135deg, rgba(120, 30, 25, 0.85), rgba(15, 11, 10, 0.92)); }
+
+/* Shared icon-button fallback so the landing toggle matches portals.
+   (Portals already style .icon-btn via nav.css; landing only loads landing.css.) */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  color: var(--ink-2);
+  position: relative;
+  transition: 0.18s ease;
+}
+.icon-btn:hover { border-color: var(--line-strong); color: var(--ink); }

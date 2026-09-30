@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Bloodline — Find a Donor · Recipient Portal</title>
+  <link rel="icon" type="image/png" href="../assets/bloodline-logo-trimmed.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/base.css" />
+<link rel="stylesheet" href="../css/nav.css" />
+<link rel="stylesheet" href="../css/portal.css" />
+<link rel="stylesheet" href="../css/components.css" />
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  
+  
+</head>
+<body>
+  <header class="nav">
+    <a class="brand-logo" href="../index.html" aria-label="Project Bloodline home">
+      <img src="../assets/bloodline-logo-trimmed.png" alt="Project Bloodline" />
+    </a>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)">
+      <span style="background:var(--surface);border:1px solid var(--line);padding:7px 12px;border-radius:999px">Recipient portal</span>
+    </div>
+    <div class="nav-right">
+      <a href="../index.html" class="btn btn-line btn-sm" style="white-space:nowrap">← Roles</a>
+      <div class="profile" title="Recipient portal">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" alt="Seeker" />
+        <span>Seeker</span>
+      </div>
+    </div>
+  </header>
+  <main class="app">
+    <div class="page-head">
+      <div>
+        <h1>Find a donor</h1>
+        <p>Recipient portal — no dashboard, no menu. Search below, post an emergency, check compatibility.</p>
+      </div>
+      <a class="btn btn-line btn-sm" href="donor.html">Want to donate? Register →</a>
+    </div>
+    <section id="seek-find">
+      <article class="card">
+        <div class="filters">
+          <div class="chips" id="groupChips"></div>
+          <div class="search">
+            <i data-lucide="search" width="16" height="16"></i>
+            <input id="areaSearch" type="search" placeholder="Search name, city, area or blood group" />
+          </div>
+        </div>
+        <div class="donor-list" id="donorList"></div>
+      </article>
+    </section>
+    <section id="seek-emergency">
+      <div class="page-head">
+        <div>
+          <h1>Emergency requests</h1>
+          <p>Urgent requirements are broadcast in red so available donors can act without scrolling.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-h"><h2>Active broadcast</h2></div>
+          <div class="e-list" id="eList"></div>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>Post a request</h2></div>
+          <form id="emergForm">
+            <div class="form-row">
+              <label class="req">Required group
+                <select name="group" required>
+                  <option value="">Select</option>
+                  <option>A+</option><option>A−</option><option>B+</option><option>B−</option>
+                  <option>AB+</option><option>AB−</option><option>O+</option><option>O−</option>
+                </select>
+              </label>
+              <label class="req">Urgency
+                <select name="status" required>
+                  <option>Critical</option>
+                  <option>Urgent</option>
+                </select>
+              </label>
+            </div>
+            <label class="req">Hospital / area
+              <input name="location" required placeholder="Ludhiana · DMC Hospital, Tagore Nagar" />
+            </label>
+            <label class="req">Patient / request notes
+              <textarea name="info" required placeholder="Units needed, timeframe, ward"></textarea>
+            </label>
+            <button class="btn btn-primary btn-full" type="submit">Broadcast request</button>
+          </form>
+        </article>
+      </div>
+    </section>
+    <section id="seek-compat">
+      <div class="page-head">
+        <div>
+          <h1>Blood compatibility</h1>
+          <p>Red-cell donation and receiving across the eight major groups. O− donates to all; AB+ receives from all.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-h">
+            <h2>Donor → recipient matrix</h2>
+            <span class="sub">Columns donate, rows receive</span>
+          </div>
+          <div class="matrix-wrap">
+            <table class="matrix" id="matrix"></table>
+          </div>
+          <div class="legend">
+            <span><b style="background:var(--accent)"></b> Compatible</span>
+            <span><b style="background:var(--ink)"></b> Universal donor cell</span>
+            <span><b style="background:var(--surface-2)"></b> Not compatible</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-h"><h2>Look up a group</h2></div>
+          <div class="compat-select" id="compatBtns"></div>
+          <div class="compat-panels">
+            <div class="compat-box">
+              <h3>Can donate red cells to</h3>
+              <div class="tag-list" id="donateTo"></div>
+            </div>
+            <div class="compat-box">
+              <h3>Can receive red cells from</h3>
+              <div class="tag-list" id="receiveFrom"></div>
+            </div>
+          </div>
+          <div class="note-callout" id="compatNote"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script src="../js/data.js"></script>
+<script src="../js/store.js"></script>
+<script src="../js/ui.js"></script>
+<script src="../js/recipient.js"></script>
+</body>
+</html>
